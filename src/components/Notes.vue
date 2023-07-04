@@ -11,7 +11,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="container">
+  <div data-testid="notes-container" class="container">
     <Note
       v-for="note in notes"
       :key="note.dateCreated"

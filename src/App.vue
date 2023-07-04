@@ -12,7 +12,7 @@ const { sortedNotes } = storeToRefs(notesStore)
   <header>
     <h1>The Notes App</h1>
     <p>Add, edit and delete your notes.</p>
-    <Button @click="addNewNote()">Add note</Button>
+    <Button data-testid="add-note-btn" @click="addNewNote()">Add note</Button>
   </header>
 
   <main>

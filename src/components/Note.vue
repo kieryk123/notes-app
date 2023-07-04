@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Note } from '@/models/notes'
 import { computed, ref } from 'vue'
+import DOMPurify from 'dompurify'
 import { marked } from 'marked'
 
 interface NoteProps {
@@ -16,7 +17,7 @@ const emits = defineEmits<{
 
 const editingMode = ref(false)
 const noteContent = ref(props.content)
-const markedNoteContent = computed(() => marked.parse(noteContent.value))
+const markedNoteContent = computed(() => DOMPurify.sanitize(marked.parse(noteContent.value)))
 const formattedDateCreated = computed(() => new Date(props.dateCreated).toLocaleString())
 
 function toggleEditingMode() {
@@ -28,16 +29,16 @@ function toggleEditingMode() {
 </script>
 
 <template>
-  <div class="note">
+  <div data-testid="single-note" class="note">
     <div class="buttons">
-      <Button data-testid="edit-btn" @click="toggleEditingMode()">
+      <Button data-testid="edit-note-btn" @click="toggleEditingMode()">
         {{ editingMode ? 'submit' : 'edit' }}
       </Button>
-      <Button class="button" @click="$emit('delete')">delete</Button>
+      <Button data-testid="delete-note-btn" class="button" @click="$emit('delete')">delete</Button>
     </div>
     <time class="date" :datetime="formattedDateCreated">{{ formattedDateCreated }}</time>
     <textarea class="textarea" v-if="editingMode" v-model="noteContent"></textarea>
-    <div class="content" v-else v-html="markedNoteContent"></div>
+    <div data-testid="note-content" class="content" v-else v-html="markedNoteContent"></div>
   </div>
 </template>
 

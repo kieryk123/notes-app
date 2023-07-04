@@ -25,7 +25,7 @@ describe('<Note />', () => {
         }
       }
     })
-    const button = wrapper.get('[data-testid=edit-btn]')
+    const button = wrapper.get('[data-testid=edit-note-btn]')
     expect(button.text()).toContain('edit')
     await button.trigger('click')
     expect(button.text()).toContain('submit')
